@@ -56,5 +56,4 @@ public interface Tableau<T> {
 	   * @pre : ! this.empty()
 	   */
 	  public void pop_back();
-	}
 }
