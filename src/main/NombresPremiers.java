@@ -60,6 +60,9 @@ public class NombresPremiers {
 	 * @return
 	 */
 	private static boolean estPremier(int n, Tableau<Integer> tab, int iFirst, int iLast) {
+		if(tab.empty()) {
+			return true;
+		}
 		if(iFirst == iLast) {
 			return n % tab.get(iFirst) != 0;
 		}
@@ -95,4 +98,14 @@ public class NombresPremiers {
 		}
 		return N;
 	}
+	
+	/*
+	 * Écrivez une fonction remplirHasard qui prend en paramètre un nombre entier nb, 
+	 * crée un tableau de type Block de capacité nb et le remplit avec des entiers tirés au 
+	 * hasard dans l’intervalle [0 ; nb[ (voir la classe Random dans l’API java). 
+	 * La fonction renverra le tableau ainsi créé et initialisé.
+	 * Complétez le programme principal précédent pour créer puis afficher un tableau de 
+	 * nombres entiers aléatoires dans l’intervalle [0 ; dernier[ où dernier est le nombre 
+	 * renvoyé par la fonction calculerNombresPremiers.
+	 */
 }
