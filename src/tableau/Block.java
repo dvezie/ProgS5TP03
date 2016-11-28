@@ -59,6 +59,7 @@ public class Block<T> implements Tableau<T> {
 
 	@Override
 	public void pop_back() {
+		assert ! this.empty() : "*** PRÉ-CONDITION NON VÉRIFIÉE *** : ! this.empty()";
 		this._ary.set(this.size() - 1, null);
 		this._size --;
 	}
