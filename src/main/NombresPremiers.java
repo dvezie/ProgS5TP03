@@ -2,6 +2,7 @@ package main;
 
 import types.Tableau;
 
+import java.util.Random;
 import java.util.Scanner;
 
 import tableau.Block;
@@ -22,20 +23,26 @@ public class NombresPremiers {
 		
 		System.out.print("Saisir un entier N >= 2 : ");
 		int N = input.nextInt();
+
+		input.close();
 		
 		int iLastTest = calculerNombresPremiers(N, tab);
-		afficher(N, iLastTest, tab);
+		System.out.println("\nEntiers premiers trouvés dans l'intervalle [2 ; " + N + "] :");
+		afficher(tab);
+		System.out.println("\nDernier entier testé " + iLastTest);
 		
-		input.close();
+		System.out.println("\nTableau remplit aléatoirement dans l'intervalle [ ; " + iLastTest + "[ :");
+		afficher(remplirHasard(iLastTest));
 	}
 	
-	
-	static void afficher(int N, int iLastTest, Tableau<Integer> tab) {
-		System.out.println("\nEntiers premiers trouvés dans l'intervalle [2 ; " + N + "] :");
+	/**
+	 * Affiche un tableau
+	 * @param tab : tableau à afficher
+	 */
+	static void afficher(Tableau<Integer> tab) {
 		for(int i = 0 ; i < tab.size() ; i++) {
 			System.out.print(tab.get(i) + " ");
 		}
-		System.out.println("\nDernier entier testé " + iLastTest);
 	}
 	
 	/**
@@ -60,6 +67,9 @@ public class NombresPremiers {
 	 * @return
 	 */
 	private static boolean estPremier(int n, Tableau<Integer> tab, int iFirst, int iLast) {
+		if(tab.empty()) {
+			return true;
+		}
 		if(iFirst == iLast) {
 			return n % tab.get(iFirst) != 0;
 		}
@@ -94,5 +104,21 @@ public class NombresPremiers {
 				return i;
 		}
 		return N;
+	}
+	
+	/**
+	 * Retourne un tableau de type Block de capacité nb, remplit avec des entiers tirés au 
+	 * hasard dans l’intervalle [0 ; nb[
+	 * @param nb : entier
+	 * @return un tableau de type Block
+	 */
+	public static Tableau<Integer> remplirHasard(int nb) {
+		Tableau<Integer> tab = new Block<Integer>(nb);
+		Random r = new Random();
+		
+		while(!tab.full())
+			tab.push_back(r.nextInt(nb));
+		return tab;
+
 	}
 }
