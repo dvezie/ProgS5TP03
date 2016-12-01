@@ -10,13 +10,6 @@ import tableau.Block;
 public class NombresPremiers {
 	
 	public static void main(String[] args) {
-		/*
-		 * Écrivez un programme principal qui crée un tableau de type Block d’une capacité 
-		 * de 100 éléments.
-		 * Demandez à l’utilisateur d’entrer un entier N et calculez les entiers premiers 
-		 * dans l’intervalle [2 ; N]. Le programme affichera (à l’aide d’une fonction) 
-		 * les entiers premiers trouvés ainsi que le dernier entier testé.
-		 */
 		
 		Tableau<Integer> tab = new Block<Integer>(100);
 		Scanner input = new Scanner(System.in);
@@ -119,6 +112,40 @@ public class NombresPremiers {
 		while(!tab.full())
 			tab.push_back(r.nextInt(nb));
 		return tab;
-
+	}
+	
+	/**
+	 * Élimine du tableau t1 tous les éléments présents dans le tableau t2
+	 * @param t1 : tableau d'entiers quelconque
+	 * @param t2 : tableau d'entiers trié en ordre croissant
+	 * @return le nombre d’éléments éliminés
+	 */
+	public static int eliminerPresents(Tableau<Integer> t1, Tableau<Integer> t2) {
+		if(t1.empty() || t2.empty())
+			return 0;
+		
+		int iEltsRmv = 0;
+		
+		for(int i = t1.size() - 1; i >= 0 ; i--) {
+			if(estPresent(t1.get(i), t2, 0, t2.size() - 1)) {
+				iEltsRmv++;
+				t1.set(i, t1.get(t1.size() - 1));
+				t1.pop_back();
+			}
+		}
+		
+		return iEltsRmv;
+	}
+	
+	static boolean estPresent(int iTest, Tableau<Integer> tab, int iFirst, int iLast) {
+		if(iFirst == iLast) {
+			return tab.get(iFirst).equals(iTest);
+		}
+		else {
+			int iMid = tab.get((iFirst + iLast) / 2);
+			return iMid == iTest ? true : (
+					iTest < iMid && iFirst <= ((iFirst + iLast) / 2) - 1 ? estPresent(iTest, tab, iFirst, ((iFirst + iLast) / 2) - 1) : (
+						iTest > iMid && iLast >= ((iFirst + iLast) / 2) + 1 ? estPresent(iTest, tab, ((iFirst + iLast) / 2) + 1, iLast) : false));
+		}
 	}
 }
