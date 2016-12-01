@@ -24,8 +24,14 @@ public class NombresPremiers {
 		afficher(tab);
 		System.out.println("\nDernier entier testé " + iLastTest);
 		
-		System.out.println("\nTableau remplit aléatoirement dans l'intervalle [ ; " + iLastTest + "[ :");
-		afficher(remplirHasard(iLastTest));
+		System.out.println("\nTableau remplit aléatoirement dans l'intervalle [0 ; " + iLastTest + "[ :");
+		Tableau<Integer> tabRdm = remplirHasard(iLastTest);
+		afficher(tabRdm);
+		
+		System.out.println("\n\nÉlimination des entiers premiers de ce tableau : ");
+		System.out.print("Nombre d'éléments éliminés : " + eliminerPresents(tabRdm, tab));
+		System.out.println("\nTableau après élimination : ");
+		afficher(tabRdm);
 	}
 	
 	/**
@@ -142,7 +148,17 @@ public class NombresPremiers {
 			return tab.get(iFirst).equals(iTest);
 		}
 		else {
+			// iMid = valeur de l'élément au milieu du tableau
 			int iMid = tab.get((iFirst + iLast) / 2);
+			
+			/*
+			 * return true si iMid == iTest
+			 * sinon, si iMid > iTest, et que iMid n'est pas le premier élément de la recherche,
+			 * 		on recherche dans les éléments précédents
+			 * sinon, si iMid < iTest, et que iMid n'est pas le dernier élément de la recherche,
+			 * 		on recherche dans les éléments suivants
+			 * return false sinon
+			 */
 			return iMid == iTest ? true : (
 					iTest < iMid && iFirst <= ((iFirst + iLast) / 2) - 1 ? estPresent(iTest, tab, iFirst, ((iFirst + iLast) / 2) - 1) : (
 						iTest > iMid && iLast >= ((iFirst + iLast) / 2) + 1 ? estPresent(iTest, tab, ((iFirst + iLast) / 2) + 1, iLast) : false));
