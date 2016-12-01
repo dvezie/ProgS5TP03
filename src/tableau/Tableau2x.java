@@ -2,15 +2,28 @@ package tableau;
 
 import types.Tableau;
 
+/**
+ * spécification de la classe Tableau2x ; T est le type des éléments du tableau
+ * 
+ * ce tableau double automatiquement de capacité lorsqu'il est plein
+ * 
+ * @author Louis Boureau et Déborah Vézie
+ */
 public class Tableau2x<T> implements Tableau<T> {
 
 	private Block<T> tab;
 	
+	/**
+	   * Instancier un nouveau tableau de type Tableau2x
+	   * 
+	   * @param capacite : capacité initiale du tableau
+	   * @pre capacite>0
+	   */
 	public Tableau2x(int capacite){
 		assert(capacite>0):"La capacité du tableau doit être > 0";
 		this.tab = new Block<T>(capacite);
 	}
-	
+
 	@Override
 	public int size(){
 		return tab.size();
@@ -42,6 +55,10 @@ public class Tableau2x<T> implements Tableau<T> {
 	public void push_back(T x) {
 		assert(!this.full()):"Pour ajouter un élément, le tableau ne doit pas être plein";
 		tab.push_back(x);
+		
+		// Après avoir ajouter un élément au tableau, on regarde si celui-ci est plein.
+		// Si il est plein, on double sa capacité en créant un bloc du double de sa taille
+		// et on recopie ensuite les éléments de l'ancien block dans le nouveau.
 		if(this.full()){
 			Block<T> tab_temp = tab;
 			tab = new Block<T>(tab_temp.size()*2);
